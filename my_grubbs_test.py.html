@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>my_grubbs_test.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #7a7e85;}
+.s3 { color: #bcbec4;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+my_grubbs_test.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">statistics</span>
+
+<span class="s2">#get user input for data</span>
+<span class="s0">def </span><span class="s1">data_input</span><span class="s3">():</span>
+  <span class="s2">#determine if user input is number</span>
+  <span class="s0">def </span><span class="s1">is_valid_number</span><span class="s3">(</span><span class="s1">value</span><span class="s3">):</span>
+      <span class="s0">try</span><span class="s3">:</span>
+          <span class="s1">float</span><span class="s3">(</span><span class="s1">value</span><span class="s3">)</span>
+          <span class="s0">return True</span>
+      <span class="s0">except </span><span class="s1">ValueError</span><span class="s3">:</span>
+          <span class="s0">return False</span>
+
+  <span class="s2">#get user input for data</span>
+  <span class="s1">data </span><span class="s3">= </span><span class="s1">input</span><span class="s3">(</span><span class="s4">&quot;Enter data values separated by spaces or commas: &quot;</span><span class="s3">)</span>
+
+  <span class="s2">#create list with user input for data</span>
+  <span class="s1">data_list </span><span class="s3">= []</span>
+  <span class="s2">#reformat user input without commas</span>
+  <span class="s0">for </span><span class="s1">value </span><span class="s0">in </span><span class="s1">data</span><span class="s3">.</span><span class="s1">replace</span><span class="s3">(</span><span class="s4">&quot;,&quot;</span><span class="s3">, </span><span class="s4">&quot; &quot;</span><span class="s3">).</span><span class="s1">split</span><span class="s3">():</span>
+      <span class="s2">#adds valid user inputs to list</span>
+      <span class="s0">if </span><span class="s1">is_valid_number</span><span class="s3">(</span><span class="s1">value</span><span class="s3">):</span>
+          <span class="s1">data_list</span><span class="s3">.</span><span class="s1">append</span><span class="s3">(</span><span class="s1">float</span><span class="s3">(</span><span class="s1">value</span><span class="s3">))</span>
+
+  <span class="s2">#error message</span>
+  <span class="s0">if not </span><span class="s1">data_list</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Invalid input. Please enter data values separated by spaces or commas&quot;</span><span class="s3">)</span>
+      <span class="s0">return </span><span class="s1">data_input</span><span class="s3">()</span>
+
+  <span class="s2">#error message</span>
+  <span class="s0">if </span><span class="s1">len</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">) &lt; </span><span class="s5">3</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Invalid input. Please enter at least 3 data values.&quot;</span><span class="s3">)</span>
+      <span class="s0">return </span><span class="s1">data_input</span><span class="s3">()</span>
+  <span class="s0">elif </span><span class="s1">len</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">) &gt; </span><span class="s5">20</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Invalid input. Please enter no more than 20 data values.&quot;</span><span class="s3">)</span>
+      <span class="s0">return </span><span class="s1">data_input</span><span class="s3">()</span>
+  <span class="s0">else</span><span class="s3">:</span>
+      <span class="s0">return </span><span class="s1">data_list</span>
+
+<span class="s2">#get user input for highest/ lowest suspected outlier</span>
+<span class="s0">def </span><span class="s1">suspected_outlier</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">):</span>
+  <span class="s2">#get user input for highest/ lowest suspected outlier</span>
+  <span class="s1">outlier_input </span><span class="s3">= </span><span class="s1">input</span><span class="s3">(</span><span class="s4">&quot;Would you like to test the highest or lowest value: &quot;</span><span class="s3">).</span><span class="s1">lower</span><span class="s3">()</span>
+
+  <span class="s2">#returns highest/ lowest suspected outlier</span>
+  <span class="s0">if </span><span class="s1">outlier_input </span><span class="s3">== </span><span class="s4">&quot;highest&quot;</span><span class="s3">:</span>
+      <span class="s0">return </span><span class="s1">max</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+  <span class="s0">elif </span><span class="s1">outlier_input </span><span class="s3">== </span><span class="s4">&quot;lowest&quot;</span><span class="s3">:</span>
+      <span class="s0">return </span><span class="s1">min</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+  <span class="s2">#error message</span>
+  <span class="s0">else</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Invalid input. Please enter highest or lowest.&quot;</span><span class="s3">)</span>
+      <span class="s0">return </span><span class="s1">suspected_outlier</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+
+<span class="s2">#calculate gcalc of suspected outlier in data</span>
+<span class="s0">def </span><span class="s1">gcalc</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">, </span><span class="s1">outlier_value</span><span class="s3">):</span>
+   <span class="s1">mean </span><span class="s3">= </span><span class="s1">statistics</span><span class="s3">.</span><span class="s1">mean</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+   <span class="s1">st_dev </span><span class="s3">= </span><span class="s1">statistics</span><span class="s3">.</span><span class="s1">stdev</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+   <span class="s0">return </span><span class="s1">abs</span><span class="s3">((</span><span class="s1">outlier_value </span><span class="s3">- </span><span class="s1">mean</span><span class="s3">) / </span><span class="s1">st_dev</span><span class="s3">)</span>
+
+<span class="s2">#get gcrit from number of values in data</span>
+<span class="s0">def </span><span class="s1">gcrit</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">):</span>
+  <span class="s2">#dictionary of gcrit values</span>
+  <span class="s1">gcrit_table </span><span class="s3">= {</span><span class="s4">&quot;3&quot;</span><span class="s3">: </span><span class="s5">1.153</span><span class="s3">,</span>
+                 <span class="s4">&quot;4&quot;</span><span class="s3">: </span><span class="s5">1.463</span><span class="s3">,</span>
+                 <span class="s4">&quot;5&quot;</span><span class="s3">: </span><span class="s5">1.672</span><span class="s3">,</span>
+                 <span class="s4">&quot;6&quot;</span><span class="s3">: </span><span class="s5">1.822</span><span class="s3">,</span>
+                 <span class="s4">&quot;7&quot;</span><span class="s3">: </span><span class="s5">1.938</span><span class="s3">,</span>
+                 <span class="s4">&quot;8&quot;</span><span class="s3">: </span><span class="s5">2.032</span><span class="s3">,</span>
+                 <span class="s4">&quot;9&quot;</span><span class="s3">: </span><span class="s5">2.110</span><span class="s3">,</span>
+                 <span class="s4">&quot;10&quot;</span><span class="s3">: </span><span class="s5">2.234</span><span class="s3">,</span>
+                 <span class="s4">&quot;11&quot;</span><span class="s3">: </span><span class="s5">2.285</span><span class="s3">,</span>
+                 <span class="s4">&quot;12&quot;</span><span class="s3">: </span><span class="s5">2.285</span><span class="s3">,</span>
+                 <span class="s4">&quot;13&quot;</span><span class="s3">: </span><span class="s5">2.331</span><span class="s3">,</span>
+                 <span class="s4">&quot;14&quot;</span><span class="s3">: </span><span class="s5">2.371</span><span class="s3">,</span>
+                 <span class="s4">&quot;15&quot;</span><span class="s3">: </span><span class="s5">2.409</span><span class="s3">,</span>
+                 <span class="s4">&quot;16&quot;</span><span class="s3">: </span><span class="s5">2.443</span><span class="s3">,</span>
+                 <span class="s4">&quot;17&quot;</span><span class="s3">: </span><span class="s5">2.475</span><span class="s3">,</span>
+                 <span class="s4">&quot;18&quot;</span><span class="s3">: </span><span class="s5">2.504</span><span class="s3">,</span>
+                 <span class="s4">&quot;19&quot;</span><span class="s3">: </span><span class="s5">2.532</span><span class="s3">,</span>
+                 <span class="s4">&quot;20&quot;</span><span class="s3">: </span><span class="s5">2.557</span><span class="s3">}</span>
+
+  <span class="s2">#calculate length of data list</span>
+  <span class="s1">obs </span><span class="s3">= </span><span class="s1">str</span><span class="s3">(</span><span class="s1">len</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">))</span>
+
+  <span class="s2">#returns gcrit value</span>
+  <span class="s0">if </span><span class="s1">obs </span><span class="s0">in </span><span class="s1">gcrit_table</span><span class="s3">:</span>
+      <span class="s0">return </span><span class="s1">gcrit_table</span><span class="s3">[</span><span class="s1">obs</span><span class="s3">]</span>
+  <span class="s2">#error message</span>
+  <span class="s0">else</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Invalid input.&quot;</span><span class="s3">)</span>
+      <span class="s0">return None</span>
+
+<span class="s2">#use grubbs test to evaluate suspected outlier</span>
+<span class="s2">#compare gcalc and gcrit</span>
+<span class="s0">def </span><span class="s1">grubbs_test</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">, </span><span class="s1">outlier_value</span><span class="s3">):</span>
+  <span class="s1">gcalc_value </span><span class="s3">= </span><span class="s1">gcalc</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">, </span><span class="s1">outlier_value</span><span class="s3">)</span>
+  <span class="s1">gcrit_value </span><span class="s3">= </span><span class="s1">gcrit</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+
+  <span class="s2">#error message</span>
+  <span class="s0">if </span><span class="s1">gcrit_value </span><span class="s0">is None</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Invalid data set. Data set is either too large or too small.&quot;</span><span class="s3">)</span>
+      <span class="s0">return False</span>
+
+  <span class="s2">#prints gcalc and gcrit value</span>
+  <span class="s1">print</span><span class="s3">()</span>
+  <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;Gcalc: </span><span class="s0">{</span><span class="s1">gcalc_value</span><span class="s0">:</span><span class="s4">0.3f</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s3">)</span>
+  <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;Gcrit: </span><span class="s0">{</span><span class="s1">gcrit_value</span><span class="s0">:</span><span class="s4">0.3f</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s3">)</span>
+
+  <span class="s2">#prints &quot;is outlier&quot;/ &quot;is not outlier&quot; message</span>
+  <span class="s0">if </span><span class="s1">gcalc_value </span><span class="s3">&gt; </span><span class="s1">gcrit_value</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;</span><span class="s0">{</span><span class="s1">outlier_value</span><span class="s0">} </span><span class="s4">is an statistical outlier and should be removed from the data set.&quot;</span><span class="s3">)</span>
+      <span class="s0">return True</span>
+  <span class="s0">else</span><span class="s3">:</span>
+      <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;</span><span class="s0">{</span><span class="s1">outlier_value</span><span class="s0">} </span><span class="s4">is not an statistical outlier and should not be removed from the data set.&quot;</span><span class="s3">)</span>
+      <span class="s0">return False</span>
+
+<span class="s2">#removes outlier from data</span>
+<span class="s2">#recalculates mean and st.dev if outlier</span>
+<span class="s0">def </span><span class="s1">main</span><span class="s3">():</span>
+   <span class="s1">data_list </span><span class="s3">= </span><span class="s1">data_input</span><span class="s3">()</span>
+   <span class="s1">outlier_value </span><span class="s3">= </span><span class="s1">suspected_outlier</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span>
+   <span class="s1">grubbs_test_value </span><span class="s3">= </span><span class="s1">grubbs_test</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">, </span><span class="s1">outlier_value</span><span class="s3">)</span>
+
+   <span class="s0">if </span><span class="s1">grubbs_test_value</span><span class="s3">:</span>
+       <span class="s2">#remove outlier (grubbs test)</span>
+       <span class="s1">data_list</span><span class="s3">.</span><span class="s1">remove</span><span class="s3">(</span><span class="s1">outlier_value</span><span class="s3">)</span>
+       <span class="s1">print</span><span class="s3">()</span>
+       <span class="s2">#prints new mean and st. dev</span>
+       <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;The new mean is </span><span class="s0">{</span><span class="s1">statistics</span><span class="s3">.</span><span class="s1">mean</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span><span class="s0">:</span><span class="s4">0.3f</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s3">)</span>
+       <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;The new standard deviation is </span><span class="s0">{</span><span class="s1">statistics</span><span class="s3">.</span><span class="s1">stdev</span><span class="s3">(</span><span class="s1">data_list</span><span class="s3">)</span><span class="s0">:</span><span class="s4">0.3f</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s3">)</span>
+   <span class="s2">#exit program</span>
+   <span class="s1">exit</span><span class="s3">()</span>
+
+<span class="s2">#runs program</span>
+<span class="s0">if </span><span class="s1">__name__ </span><span class="s3">== </span><span class="s4">&quot;__main__&quot;</span><span class="s3">:</span>
+  <span class="s1">main</span><span class="s3">()</span></pre>
+</body>
+</html>
